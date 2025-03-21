@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Query Chatbot</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script defer src="static/script.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Crime Bot</h2>
+        <ul>
+            <li><a href="#" data-section="home">🏠 Home</a></li>
+            <li><a href="#" data-section="addcases">📊 Add Cases</a></li>
+            <li><a href="#" data-section="searchCases">🔍 Search Cases</a></li>
+            <li class="settings"><a href="#" data-section="settings">⚙️ Settings</a></li>
+        </ul>
+    </div>
+    
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div id="home" class="page">
+            <h1>Welcome to the Crime Query Chatbot</h1>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+            <!-- Chatbox -->
+            <div class="chat-container">
+                <div id="chatbox">
+                    <div class="chat-message bot">👮 Hello! How can I assist you with crime cases today?</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type a message...">
+                    <button id="voiceInputButton"><!-- Chat Input Box with Embedded Mic -->
+                        <i class="fas fa-microphone"></i> <!-- Microphone Icon -->
+                    </button>
+                    <button id="sendButton" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i> <!-- Paper Plane Icon -->
+                    </button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Cases Page -->
+<div id="addcases" class="page hidden" style="margin-left: 40vw; width: 100%;">
+    <h1>📊 Add New Case</h1>
+    <div class="case-form">
+
+        <label for="suspectPhoto" class="custom-file-upload">Upload Suspect Photo</label>
+        <input type="file" id="suspectPhoto" name="suspect_photo" accept="image/*">
+        <img id="photoPreview" src="" alt="Preview" style="display:none; width: 100px; height: 100px; margin-top: 10px;">
+
+
+        <label for="caseTitle">Case Title:</label>
+        <input type="text" id="caseTitle" placeholder="Enter case title">
+
+        <label for="caseDetails">Case Details:</label>
+        <textarea id="caseDetails" placeholder="Enter case description"></textarea>
+
+        <label for="suspectName">Suspect Name:</label>
+        <input type="text" id="suspectName" placeholder="Enter suspect name">
+
+        <label for="fatherName">Father Name:</label>
+        <input type="text" id="fatherName" placeholder="Enter father's name">
+
+        <label for="friendsName">Friend's Names:</label>
+        <input type="text" id="friendsName" placeholder="Comma-separated names">
+
+        <label for="seenArea">Mostly Seen Area:</label>
+        <input type="text" id="seenArea" placeholder="Enter seen Areas">
+
+        <label for="previousCases">Previous Case History:</label>
+        <textarea id="previousCases" rows="3" placeholder="Enter previous case details"></textarea>
+
+        <label for="crimeType">Crime Type:</label>
+        <select id="crimeType">
+            <option value="Theft">Theft</option>
+            <option value="Assault">Assault</option>
+            <option value="Fraud">Fraud</option>
+            <option value="Homicide">Homicide</option>
+            <option value="Cybercrime">Cybercrime</option>
+            <option value="Drug Trafficking">Drug Trafficking</option>
+            <option value="Kidnapping">Kidnapping</option>
+            <option value="Human Trafficking">Human Trafficking</option>
+            <option value="Domestic Violence">Domestic Violence</option>
+            <option value="Terrorism">Terrorism</option>
+            <option value="Money Laundering">Money Laundering</option>
+            <option value="Vandalism">Vandalism</option>
+            <option value="Smuggling">Smuggling</option>
+            <option value="Illegal Firearms Possession">Illegal Firearms Possession</option>
+        </select>
+
+        <label for="wantedlevel">Wanted Level:</label>
+        <input type="number" id="wantedlevel" step="0.5" min="0" max="10" placeholder="Enter wanted level">
+
+        <label for="officerName">Assigned Officer:</label>
+        <input type="text" id="officerName" placeholder="Enter officer's name">
+
+        <label for="caseStatus">Case Status:</label>
+        <select id="caseStatus">
+            <option value="open">Open</option>
+            <option value="under-investigation">Under Investigation</option>
+            <option value="closed">Closed</option>
+        </select>
+
+        <button onclick="saveCase()">Save Case</button>
+    </div>
+</div>
+
+
+<!-- Settings Page -->
+<div id="settings" class="page hidden"style="margin-left: 40vw; width: 100%;">
+    <h1>⚙️ Settings</h1>
+    <div class="settings-container">
+        <label>
+            <input type="checkbox" onclick="toggleDarkMode()"> Dark Mode
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="notifications"> Enable Notifications
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="soundAlerts"> Sound Alerts
+        </label>
+        <br>
+        <button onclick="saveSettings()">Save Settings</button>
+    </div>
+</div>
+
+<!-- Search Cases Section -->
+<div id="searchCases" class="page hidden"style="margin-left: 35vw; width: 100%;">
+    <h1>🔍 Search Cases</h1>
+
+    <!-- Search Bar -->
+    <input type="text" id="caseSearchInput" placeholder="Search cases..." onkeyup="searchCases()">
+    <br>
+
+    <!-- Case List -->
+    <label for="crimeType">Crime Type:</label>
+    <select id="crimeType">
+        <option value="Theft">Theft</option>
+        <option value="Assault">Assault</option>
+        <option value="Fraud">Fraud</option>
+        <option value="Homicide">Homicide</option>
+        <option value="Cybercrime">Cybercrime</option>
+        <option value="Drug Trafficking">Drug Trafficking</option>
+        <option value="Kidnapping">Kidnapping</option>
+        <option value="Human Trafficking">Human Trafficking</option>
+        <option value="Domestic Violence">Domestic Violence</option>
+        <option value="Terrorism">Terrorism</option>
+        <option value="Money Laundering">Money Laundering</option>
+        <option value="Vandalism">Vandalism</option>
+        <option value="Smuggling">Smuggling</option>
+        <option value="Illegal Firearms Possession">Illegal Firearms Possession</option>
+    </select>
+
+
+</body>
+</html>
